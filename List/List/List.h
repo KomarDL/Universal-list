@@ -26,5 +26,7 @@ int ListGetLength(PList list);
 
 int ListGetDataSize(PList list);
 
+bool ListPushBack(PList list, void *data);
+
 #endif // !UNIVERSAL_LIST
 
