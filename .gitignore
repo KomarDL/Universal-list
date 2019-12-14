@@ -45,6 +45,8 @@
 #Folders
 .vs/
 
+Source.c
+
 # Kernel Module Compile Results
 *.mod*
 *.cmd
