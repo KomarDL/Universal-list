@@ -4,8 +4,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <memory.h>
-#include <WinError.h>
-#include <errhandlingapi.h>
+#include <windows.h>
 
 typedef void(*OutputFunction)(void *data);
 typedef bool(*Comparator)(void *first, void *second);
@@ -20,6 +19,12 @@ typedef struct _TList *PList;
 PList ListConstructor(DataConstructor dataConstructor, DataDestructor dataDestructor,
 					GetParams getParams, ReleaseParams releaseParams,
 					DataCopy dataCopy, int dataSize);
+
+bool ListIsEmpty(PList list);
+
+int ListGetLength(PList list);
+
+int ListGetDataSize(PList list);
 
 #endif // !UNIVERSAL_LIST
 

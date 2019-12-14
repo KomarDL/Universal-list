@@ -43,3 +43,18 @@ PList ListConstructor(DataConstructor dataConstructor, DataDestructor dataDestru
 	}
 	return result;
 }
+
+bool ListIsEmpty(PList list)
+{
+	return list->isEmpty;
+}
+
+int ListGetLength(PList list)
+{
+	return list->length;
+}
+
+int ListGetDataSize(PList list)
+{
+	return list->dataSize;
+}
