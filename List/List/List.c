@@ -13,23 +13,14 @@ typedef struct _TList
 	int length;
 	bool isEmpty;
 	int dataSize;
-	GetParams getParams;
 	ReleaseParams releaseParams;
 	DataConstructor dataConstructor;
 	DataDestructor dataDestructor;
 	DataCopy dataCopy;
 } List;
 
-PList ListConstructor(DataConstructor dataConstructor, DataDestructor dataDestructor,
-					GetParams getParams, ReleaseParams releaseParams,
-					DataCopy dataCopy, int dataSize)
+PList ListConstructor(DataConstructor dataConstructor, DataDestructor dataDestructor, DataCopy dataCopy, int dataSize)
 {
-	if (getParams == NULL || releaseParams == NULL)
-	{
-		SetLastError(ERROR_INVALID_PARAMETER);
-		return NULL;
-	}
-
 	PList result = calloc(1, sizeof(List));
 	if (result != NULL)
 	{
@@ -38,8 +29,6 @@ PList ListConstructor(DataConstructor dataConstructor, DataDestructor dataDestru
 		result->dataConstructor = (dataConstructor == NULL ? malloc : dataConstructor);
 		result->dataDestructor = (dataDestructor == NULL ? free : dataDestructor);
 		result->dataCopy = (dataCopy == NULL ? memcpy_s : dataCopy);
-		result->getParams = getParams;
-		result->releaseParams = releaseParams;
 	}
 	return result;
 }
@@ -66,20 +55,11 @@ PNode GetNode(PList list, void* data)
 	{
 		return NULL;
 	}
-
-	void* params = list->getParams(data);
-	//if getParams failed
-	if (params == NULL)
-	{
-		free(result);
-		return NULL;
-	}
-
-	result->data = list->dataConstructor(params);
+	
+	result->data = list->dataConstructor(data);
 	//if data construction failed
 	if (result->data == NULL)
 	{
-		list->releaseParams(params);
 		free(result);
 		return NULL;
 	}
@@ -88,7 +68,6 @@ PNode GetNode(PList list, void* data)
 	if (list->dataCopy(result->data, list->dataSize, data, list->dataSize))
 	{
 		list->dataDestructor(result->data);
-		list->releaseParams(params);
 		free(result);
 		return NULL;
 	}
