@@ -13,13 +13,12 @@ typedef struct _TList
 	int length;
 	bool isEmpty;
 	int dataSize;
-	ReleaseParams releaseParams;
 	DataConstructor dataConstructor;
 	DataDestructor dataDestructor;
-	DataCopy dataCopy;
 } List;
 
-PList ListConstructor(DataConstructor dataConstructor, DataDestructor dataDestructor, DataCopy dataCopy, int dataSize)
+
+PList ListConstructor(DataConstructor dataConstructor, DataDestructor dataDestructor, int dataSize)
 {
 	PList result = calloc(1, sizeof(List));
 	if (result != NULL)
@@ -28,7 +27,6 @@ PList ListConstructor(DataConstructor dataConstructor, DataDestructor dataDestru
 		result->dataSize = dataSize;
 		result->dataConstructor = (dataConstructor == NULL ? malloc : dataConstructor);
 		result->dataDestructor = (dataDestructor == NULL ? free : dataDestructor);
-		result->dataCopy = (dataCopy == NULL ? memcpy_s : dataCopy);
 	}
 	return result;
 }
@@ -60,14 +58,6 @@ PNode GetNode(PList list, void* data)
 	//if data construction failed
 	if (result->data == NULL)
 	{
-		free(result);
-		return NULL;
-	}
-
-	//if data copy failed
-	if (list->dataCopy(result->data, list->dataSize, data, list->dataSize))
-	{
-		list->dataDestructor(result->data);
 		free(result);
 		return NULL;
 	}
