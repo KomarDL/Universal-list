@@ -95,3 +95,25 @@ bool ListPushBack(PList list, void *data)
 
 	return true;
 }
+
+bool ListPushFront(PList list, void* data)
+{
+	PNode newItem = GetNode(list, data);
+	if (newItem == NULL)
+		return false;
+
+	if (list->isEmpty)
+	{
+		list->isEmpty = false;
+		list->lastNode = newItem;
+	}
+	else
+	{
+		newItem->next = list->node;
+	}
+
+	list->node = newItem;
+	++list->length;
+
+	return true;
+}

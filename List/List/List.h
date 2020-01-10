@@ -23,5 +23,7 @@ int ListGetDataSize(PList list);
 
 bool ListPushBack(PList list, void *data);
 
+bool ListPushFront(PList list, void* data);
+
 #endif // !UNIVERSAL_LIST
 
