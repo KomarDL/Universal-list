@@ -22,8 +22,15 @@ PNode GetNode(PList list, void* data);
 
 void* ListAlloc(void* data, size_t dataSize)
 {
-	UNREFERENCED_PARAMETER(data);
-	return malloc(dataSize);
+	void* result = malloc(dataSize);
+	if (result == NULL)
+		return NULL;
+	if (memcpy_s(result, dataSize, data, dataSize))
+	{
+		free(result);
+		result = NULL;
+	}
+	return result;
 }
 
 
@@ -117,7 +124,6 @@ bool ListPushFront(PList list, void* data)
 
 	return true;
 }
-
 
 void ListOutput(PList list, OutputFunction outputFunction)
 {
