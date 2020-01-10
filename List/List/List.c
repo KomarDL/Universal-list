@@ -12,20 +12,29 @@ typedef struct _TList
 	PNode lastNode;
 	int length;
 	bool isEmpty;
-	int dataSize;
+	size_t dataSize;
 	DataConstructor dataConstructor;
 	DataDestructor dataDestructor;
 } List;
 
+void* ListAlloc(void* data, size_t dataSize);
+PNode GetNode(PList list, void* data);
 
-PList ListConstructor(DataConstructor dataConstructor, DataDestructor dataDestructor, int dataSize)
+void* ListAlloc(void* data, size_t dataSize)
+{
+	UNREFERENCED_PARAMETER(data);
+	return malloc(dataSize);
+}
+
+
+PList ListConstructor(DataConstructor dataConstructor, DataDestructor dataDestructor, size_t dataSize)
 {
 	PList result = calloc(1, sizeof(List));
 	if (result != NULL)
 	{
 		result->isEmpty = true;
 		result->dataSize = dataSize;
-		result->dataConstructor = (dataConstructor == NULL ? malloc : dataConstructor);
+		result->dataConstructor = (dataConstructor == NULL ? ListAlloc : dataConstructor);
 		result->dataDestructor = (dataDestructor == NULL ? free : dataDestructor);
 	}
 	return result;
@@ -54,7 +63,7 @@ PNode GetNode(PList list, void* data)
 		return NULL;
 	}
 	
-	result->data = list->dataConstructor(data);
+	result->data = list->dataConstructor(data, list->dataSize);
 	//if data construction failed
 	if (result->data == NULL)
 	{
@@ -69,7 +78,7 @@ bool ListPushBack(PList list, void *data)
 {
 	PNode newItem = GetNode(list, data);
 	if (newItem == NULL)
-		return NULL;
+		return false;
 
 	if (list->isEmpty)
 	{

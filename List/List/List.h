@@ -8,12 +8,12 @@
 
 typedef void(*OutputFunction)(void *data);
 typedef bool(*Comparator)(void *first, void *second);
-typedef void*(*DataConstructor)(void *params);
+typedef void*(*DataConstructor)(void *data, size_t sizeofData);
 typedef void(*DataDestructor)(void *data);
 
 typedef struct _TList *PList;
 
-PList ListConstructor(DataConstructor dataConstructor, DataDestructor dataDestructor, int dataSize);
+PList ListConstructor(DataConstructor dataConstructor, DataDestructor dataDestructor, size_t dataSize);
 
 bool ListIsEmpty(PList list);
 
