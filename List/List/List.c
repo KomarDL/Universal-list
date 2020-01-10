@@ -59,39 +59,48 @@ int ListGetDataSize(PList list)
 	return list->dataSize;
 }
 
-bool ListPushBack(PList list, void *data)
+PNode GetNode(PList list, void* data)
 {
-	PNode newItem = calloc(1, sizeof(Node));
-	if (newItem == NULL)
+	PNode result = calloc(1, sizeof(Node));
+	if (result == NULL)
 	{
-		return false;
+		return NULL;
 	}
 
-	void *params = list->getParams(data);
+	void* params = list->getParams(data);
 	//if getParams failed
 	if (params == NULL)
 	{
-		free(newItem);
-		return false;
+		free(result);
+		return NULL;
 	}
 
-	newItem->data = list->dataConstructor(params);
+	result->data = list->dataConstructor(params);
 	//if data construction failed
-	if (newItem->data == NULL)
+	if (result->data == NULL)
 	{
 		list->releaseParams(params);
-		free(newItem);
-		return false;
+		free(result);
+		return NULL;
 	}
 
 	//if data copy failed
-	if (list->dataCopy(newItem->data, list->dataSize, data, list->dataSize))
+	if (list->dataCopy(result->data, list->dataSize, data, list->dataSize))
 	{
-		list->dataDestructor(newItem->data);
+		list->dataDestructor(result->data);
 		list->releaseParams(params);
-		free(newItem);
-		return false;
+		free(result);
+		return NULL;
 	}
+
+	return result;
+}
+
+bool ListPushBack(PList list, void *data)
+{
+	PNode newItem = GetNode(list, data);
+	if (newItem == NULL)
+		return NULL;
 
 	if (list->isEmpty)
 	{
