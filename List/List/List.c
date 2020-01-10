@@ -117,3 +117,15 @@ bool ListPushFront(PList list, void* data)
 
 	return true;
 }
+
+
+void ListOutput(PList list, OutputFunction outputFunction)
+{
+	if (!list->isEmpty)
+	{
+		for (PNode item = list->node; item != NULL; item = item->next)
+		{
+			outputFunction(item->data);
+		}
+	}
+}

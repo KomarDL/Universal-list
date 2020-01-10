@@ -25,5 +25,7 @@ bool ListPushBack(PList list, void *data);
 
 bool ListPushFront(PList list, void* data);
 
+void ListOutput(PList list, OutputFunction outputFunction);
+
 #endif // !UNIVERSAL_LIST
 
