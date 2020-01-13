@@ -235,3 +235,17 @@ void ListOutput(PList list, OutputFunction outputFunction)
 		}
 	}
 }
+
+void ListRelease(PList* list)
+{
+	do
+	{
+		void* data = ListPopFront(*list);
+		if (data != NULL)
+		{
+			(*list)->dataDestructor(data, (*list)->dataSize);
+		}
+	} while (!(*list)->isEmpty);
+	free(*list);
+	*list = NULL;
+}
