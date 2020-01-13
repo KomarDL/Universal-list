@@ -31,6 +31,8 @@ void* ListPopBack(PList list);
 
 void* ListPopFront(PList list);
 
+void* ListPopAt(PList list, int index);
+
 void ListOutput(PList list, OutputFunction outputFunction);
 
 #endif // !UNIVERSAL_LIST

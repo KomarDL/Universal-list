@@ -131,7 +131,7 @@ bool ListPushAt(PList list, void* data, int index)
 	if (index == 0)
 		return ListPushFront(list, data);
 
-	if (index >= list->length + 1)
+	if (index >= list->length)
 		return ListPushBack(list, data);
 
 	PNode newItem = GetNode(list, data);
@@ -195,6 +195,32 @@ void* ListPopFront(PList list)
 		list->isEmpty = true;
 		list->lastNode = NULL;
 	}
+
+	return result;
+}
+
+void* ListPopAt(PList list, int index)
+{
+	void* result = NULL;
+
+	index = abs(index);
+
+	if (index == 0)
+		return ListPopFront(list);
+
+	if (index >= list->length - 1)
+		return ListPopBack(list);
+
+	PNode tmp = list->node;
+	for (int i = 0; i < index - 1; ++i)
+	{
+		tmp = tmp->next;
+	}
+	PNode forDispose = tmp->next;
+	tmp->next = forDispose->next;
+	result = forDispose->data;
+	free(forDispose);
+	--list->length;
 
 	return result;
 }
