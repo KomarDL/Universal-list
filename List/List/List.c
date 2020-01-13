@@ -33,7 +33,6 @@ void* ListAlloc(void* data, size_t dataSize)
 	return result;
 }
 
-
 PList ListConstructor(DataConstructor dataConstructor, DataDestructor dataDestructor, size_t dataSize)
 {
 	PList result = calloc(1, sizeof(List));
@@ -120,6 +119,32 @@ bool ListPushFront(PList list, void* data)
 	}
 
 	list->node = newItem;
+	++list->length;
+
+	return true;
+}
+
+bool ListPushAt(PList list, void* data, int index)
+{
+	index = abs(index);
+
+	if (index == 0)
+		return ListPushFront(list, data);
+
+	if (index == list->length + 1)
+		return ListPushBack(list, data);
+
+	PNode newItem = GetNode(list, data);
+	if (newItem == NULL)
+		return false;
+
+	PNode tmp = list->node;
+	for (int i = 1; i < index - 1; ++i)
+	{
+		tmp = tmp->next;
+	}
+	newItem->next = tmp->next;
+	tmp->next = newItem;
 	++list->length;
 
 	return true;
