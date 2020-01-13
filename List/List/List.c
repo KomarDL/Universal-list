@@ -179,6 +179,26 @@ void* ListPopBack(PList list)
 	return result;
 }
 
+void* ListPopFront(PList list)
+{
+	void* result = NULL;
+
+	if (list->isEmpty)
+		return result;
+
+	result = list->node->data;
+	PNode tmp = list->node;
+	list->node = list->node->next;
+	free(tmp);
+	if (--list->length == 0)
+	{
+		list->isEmpty = true;
+		list->lastNode = NULL;
+	}
+
+	return result;
+}
+
 void ListOutput(PList list, OutputFunction outputFunction)
 {
 	if (!list->isEmpty)
