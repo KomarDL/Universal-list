@@ -1,5 +1,2 @@
-﻿  List.c
-H:\Проекты\Для себя\Universal-list\List\List\List.c(246,51): warning C4020: функция по указателю: слишком много фактических параметров
-  Source.c
-  Создание кода...
+﻿  Source.c
   List.vcxproj -> H:\Проекты\Для себя\Universal-list\List\Debug\List.exe

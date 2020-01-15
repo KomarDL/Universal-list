@@ -35,6 +35,8 @@ void* ListPopAt(PList list, int index);
 
 void ListOutput(PList list, OutputFunction outputFunction);
 
+void ListClear(PList list);
+
 void ListRelease(PList* list);
 
 #endif // !UNIVERSAL_LIST

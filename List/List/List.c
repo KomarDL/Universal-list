@@ -249,3 +249,15 @@ void ListRelease(PList* list)
 	free(*list);
 	*list = NULL;
 }
+
+void ListClear(PList list)
+{
+	while (!list->isEmpty)
+	{
+		void* data = ListPopFront(list);
+		if (data != NULL)
+		{
+			list->dataDestructor(data, list->dataSize);
+		}
+	}
+}
