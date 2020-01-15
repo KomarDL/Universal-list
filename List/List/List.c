@@ -6,6 +6,13 @@ typedef struct _TNode
 	struct _TNode *next;
 } Node, *PNode;
 
+#define STACK_LENGTH 64
+typedef struct _TSortStack
+{
+	int level;
+	PNode listItem;
+} SortStack, * PSortStack;
+
 typedef struct _TList
 {
 	PNode node;
@@ -19,6 +26,7 @@ typedef struct _TList
 
 void* ListAlloc(void* data, size_t dataSize);
 PNode GetNode(PList list, void* data);
+PNode Merge(PList list, PNode first, PNode second, Comparator cmp);
 
 void* ListAlloc(void* data, size_t dataSize)
 {
@@ -259,5 +267,94 @@ void ListClear(PList list)
 		{
 			list->dataDestructor(data, list->dataSize);
 		}
+	}
+}
+
+PNode Merge(PList list, PNode first, PNode second, Comparator cmp)
+{
+	PNode currItem = NULL;
+	if (cmp(first->data, second->data))
+	{
+		currItem = second;
+		second = second->next;
+	}
+	else
+	{
+		currItem = first;
+		first = first->next;
+	}
+
+	PNode result = currItem;
+
+	while ((first != NULL) && (second != NULL))
+	{
+		PNode tmp = NULL;
+		if (cmp(first->data, second->data))
+		{
+			currItem->next = second;
+			currItem = second;
+			second = second->next;
+		}
+		else
+		{
+			currItem->next = first;
+			currItem = first;
+			first = first->next;
+		}
+
+	}
+
+	if (first != NULL)
+	{
+		currItem->next = first;
+	}
+	else
+	{
+		currItem->next = second;
+	}
+
+	while (currItem->next != NULL)
+	{
+		currItem = currItem->next;
+	}
+	list->lastNode = currItem;
+
+	return result;
+}
+
+void ListSort(PList list, Comparator cmp)
+{
+	if (list->length < 2)
+	{
+		return;
+	}
+	SortStack stack[STACK_LENGTH] = { 0 };
+	//memset(stack, ~0, sizeof(SortStack) * STACK_LENGTH);
+	int i = 0;
+	PNode currentItem = list->node;
+	while (currentItem != NULL)
+	{
+		stack[i].level = 1;
+		stack[i].listItem = currentItem;
+		currentItem = currentItem->next;
+		stack[i].listItem->next = NULL;
+		++i;
+		while ((i > 1) && (stack[i - 1].level == stack[i - 2].level))
+		{
+
+			stack[i - 2].listItem = Merge(list, stack[i - 2].listItem, stack[i - 1].listItem, cmp);
+			++stack[i - 2].level;
+			--i;
+		}
+	}
+	while (i > 1)
+	{
+		stack[i - 2].listItem = Merge(list, stack[i - 2].listItem, stack[i - 1].listItem, cmp);
+		++stack[i - 2].level;
+		--i;
+	}
+	if (i > 0)
+	{
+		list->node = stack[0].listItem;
 	}
 }
