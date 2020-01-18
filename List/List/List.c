@@ -358,3 +358,26 @@ void ListSort(PList list, Comparator cmp)
 		list->node = stack[0].listItem;
 	}
 }
+
+void ListReverse(PList pl)
+{
+	if (pl->length < 2)
+		return;
+
+	PNode prev = NULL;
+	PNode curr = pl->node;
+	PNode next = pl->node->next;
+	bool countine = true;
+
+	pl->node = pl->lastNode;
+	pl->lastNode = curr;
+
+	while (countine)
+	{
+		curr->next = prev;
+		prev = curr;
+		curr = next;
+		if ( countine = (next != NULL) )
+			next = next->next;
+	}
+}
