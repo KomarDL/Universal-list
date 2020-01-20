@@ -387,7 +387,7 @@ void* ListGetFront(PList list)
 	if (list->isEmpty)
 		return NULL;
 
-	return list->node;
+	return list->node->data;
 }
 
 void* ListGetBack(PList list)
@@ -395,5 +395,21 @@ void* ListGetBack(PList list)
 	if (list->isEmpty)
 		return NULL;
 
-	return list->lastNode;
+	return list->lastNode->data;
+}
+
+void* ListGetAt(PList list, int index)
+{
+	index = abs(index);
+
+	if (index >= list->length)
+		return NULL;
+
+	PNode result = list->node;
+	for (int i = 0; i < index; ++i)
+	{
+		result = result->next;
+	}
+
+	return result->data;
 }

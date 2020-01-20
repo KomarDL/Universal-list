@@ -47,5 +47,7 @@ void* ListGetFront(PList list);
 
 void* ListGetBack(PList list);
 
+void* ListGetAt(PList list, int index);
+
 #endif // !UNIVERSAL_LIST
 
