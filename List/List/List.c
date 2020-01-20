@@ -359,18 +359,18 @@ void ListSort(PList list, Comparator cmp)
 	}
 }
 
-void ListReverse(PList pl)
+void ListReverse(PList list)
 {
-	if (pl->length < 2)
+	if (list->length < 2)
 		return;
 
 	PNode prev = NULL;
-	PNode curr = pl->node;
-	PNode next = pl->node->next;
+	PNode curr = list->node;
+	PNode next = list->node->next;
 	bool countine = true;
 
-	pl->node = pl->lastNode;
-	pl->lastNode = curr;
+	list->node = list->lastNode;
+	list->lastNode = curr;
 
 	while (countine)
 	{
@@ -380,4 +380,12 @@ void ListReverse(PList pl)
 		if ( countine = (next != NULL) )
 			next = next->next;
 	}
+}
+
+void* ListGetFront(PList list)
+{
+	if (list->isEmpty)
+		return NULL;
+
+	return list->node;
 }
