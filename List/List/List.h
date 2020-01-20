@@ -43,5 +43,9 @@ void ListRelease(PList* list);
 
 void ListReverse(PList pl);
 
+void* ListGetFront(PList list);
+
+void* ListGetBack(PList list);
+
 #endif // !UNIVERSAL_LIST
 

@@ -389,3 +389,11 @@ void* ListGetFront(PList list)
 
 	return list->node;
 }
+
+void* ListGetBack(PList list)
+{
+	if (list->isEmpty)
+		return NULL;
+
+	return list->lastNode;
+}
