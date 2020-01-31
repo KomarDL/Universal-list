@@ -413,3 +413,21 @@ void* ListGetAt(PList list, int index)
 
 	return result->data;
 }
+
+PList ListCopy(PList list)
+{
+	PList result = ListConstructor(list->dataConstructor, list->dataDestructor, list->dataSize);
+	if (result == NULL)
+		return NULL;
+	
+	bool isSuccess = true;
+	for (PNode i = list->node; i != NULL && isSuccess; i = i->next)
+	{
+		isSuccess = ListPushBack(result, i->data);
+	}
+
+	if (!isSuccess)
+		ListRelease(&result);
+
+	return result;
+}

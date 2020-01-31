@@ -49,5 +49,7 @@ void* ListGetBack(PList list);
 
 void* ListGetAt(PList list, int index);
 
+PList ListCopy(PList list);
+
 #endif // !UNIVERSAL_LIST
 
