@@ -431,3 +431,33 @@ PList ListCopy(PList list)
 
 	return result;
 }
+
+bool ListAppend(PList dstList, PList *srcList, bool deleteSrc)
+{
+	PList tmp = NULL;
+	if (deleteSrc)
+	{
+		tmp = *srcList;
+		*srcList = NULL;
+	}
+	else
+	{
+		tmp = ListCopy(*srcList);
+	}
+
+	if (tmp == NULL)
+		return false;
+
+	dstList->length += tmp->length;
+	dstList->lastNode->next = tmp->node;
+	dstList->lastNode = tmp->lastNode;
+
+	tmp->length = 0;
+	tmp->node = NULL;
+	tmp->lastNode = NULL;
+	tmp->isEmpty = true;
+
+	ListRelease(&tmp);
+
+	return true;
+}

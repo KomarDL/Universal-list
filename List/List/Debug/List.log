@@ -1,2 +1,4 @@
-﻿  Source.c
+﻿  List.c
+H:\Проекты\Для себя\Universal-list\List\List\List.c(254,51): warning C4020: 'function through pointer': too many actual parameters
+H:\Проекты\Для себя\Universal-list\List\List\List.c(268,45): warning C4020: 'function through pointer': too many actual parameters
   List.vcxproj -> H:\Проекты\Для себя\Universal-list\List\Debug\List.exe

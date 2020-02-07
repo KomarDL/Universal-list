@@ -51,5 +51,7 @@ void* ListGetAt(PList list, int index);
 
 PList ListCopy(PList list);
 
+bool ListAppend(PList dstList, PList* srcList, bool deleteSrc);
+
 #endif // !UNIVERSAL_LIST
 
